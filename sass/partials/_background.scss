@@ -1,0 +1,13 @@
+body{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: url('../images/books-2273257_1920.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container{
+    background-color:$beige;
+    width: 80vw;
+    min-height: 100vh;
+}

@@ -1,0 +1,42 @@
+.book-tiles-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.book-tile-content{
+    width: 200px;
+    height: 300px;
+    border-radius: 2%;
+    -webkit-box-shadow: 1px 4px 21px 13px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 4px 21px 13px rgba(0,0,0,0.75);
+    box-shadow: 1px 4px 21px 13px rgba(0,0,0,0.75);
+    padding:10px;
+    margin: 10px;
+    background-color: $beige;
+
+    transition: background-color color opacity 0.3s;
+
+    &:hover {
+        background-color: $green;
+        color: $solidBeige;
+        opacity: 1;
+    }
+
+}
+.edit-book-tile-btn{
+    background: inherit;
+    font-family: 'Special Elite', cursive;
+    padding: 6px;
+    font-size: 90%;
+    color: inherit;
+
+    transition: background color 0.5s;
+    &:focus{
+        background: $green;
+        outline: none;
+        color: $beige;
+    }
+}
