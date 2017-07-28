@@ -129,11 +129,11 @@ class BookTiles extends React.Component{
 
         })
         return <div className="main-section">
-            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclared}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
+            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclaredFinal}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
             <div className="book-tiles-section">
                 {bookTiles}
             </div>
-            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclared}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
+            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclaredFinal}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
             </div>
     }
 }

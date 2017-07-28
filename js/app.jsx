@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 booksInfo:[],
                 booksRead: 0,
                 booksDeclared: 0,
+                booksDeclaredFinal:0,
 
             };
         }
@@ -23,12 +24,20 @@ document.addEventListener('DOMContentLoaded', function(){
                 this.setState(JSON.parse(data))
             }
            }
+
+        handleSubmitClick=()=>{
+            let booksDeclaredFinal = this.state.booksDeclared;
+              this.setState({
+                  booksDeclaredFinal: booksDeclaredFinal,
+              }, this.prepareBooksInfo, )
+        }
+
         handleReadingGoal = (nr) => {
             let booksDeclared = nr;
             this.setState({
                 nrOfBooks: nr,
                 booksDeclared: booksDeclared,
-            },this.prepareBooksInfo);
+            });
         }
 
         prepareBooksInfo = ()=>{
@@ -37,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function(){
             let author = "author"
             let bookData = this.state.booksInfo.slice();
             if (nrOfObjects>this.state.booksInfo.length){
-                console.log(nrOfObjects, this.state.booksInfo.length);
                 for (var i = this.state.booksInfo.length; i < nrOfObjects; i++) {
                     const singleBookData = {
                         author: '',
@@ -55,11 +63,20 @@ document.addEventListener('DOMContentLoaded', function(){
                 })
 
             }else if  (nrOfObjects< this.state.booksInfo.length){
-                    console.log(nrOfObjects, bookData.slice((bookData.length - nrOfObjects)));
+                    let subtract = bookData.length - nrOfObjects;
+                    bookData = bookData.slice(0 , nrOfObjects);
                     this.setState({
-                        booksInfo: bookData.slice((bookData.length - nrOfObjects)),
+                        booksInfo: bookData,
                     })
             }
+            let counter = 0;
+            for (let i = 0; i < bookData.length; i++) {
+                if (bookData[i].bookRead === 'book-read'){
+                    counter+=1}
+            }
+            this.setState({
+                booksRead:counter,
+            })
         }
         handleSingleAdd = (nr)=>{
             let newTilesNr = this.state.nrOfBooks + nr
@@ -100,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function(){
             let newBooksinfo = this.state.booksInfo.slice();
             let newObject = newBooksinfo[BookId];
             let counter = this.state.booksRead;
-            console.log(newObject.bookRead);
             if( newObject.bookRead === 'book-read'){
                 newObject.bookRead = 'book-not-read'
 
@@ -142,13 +158,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 <div className="smaller-container">
                     <Header/>
                     <BookAddingSection
-                    onAddGoal={this.handleReadingGoal} onAddSingle={this.handleSingleAdd}/>
+                    onAddGoal={this.handleReadingGoal}
+                    handleSubmitClick={this.handleSubmitClick}
+                    onAddSingle={this.handleSingleAdd}/>
                 </div>
                 <BookTiles
                     readingGoal={this.state.nrOfBooks}
                     booksRead={this.state.booksRead}
                     addOneMore={this.state.add1More} booksInfo={this.state.booksInfo}
-                    booksDeclared={this.state.booksDeclared}
+                    booksDeclaredFinal={this.state.booksDeclaredFinal}
                     handleBookEdit={this.handleBookEdit}
                     handleBookDelete={this.handleBookDelete}
                     handleBookTileChanges ={this.handleBookTileChanges}

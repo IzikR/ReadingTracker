@@ -12,7 +12,7 @@
 }
 
 
-.single-book-add-btn{
+.single-book-add-btn, .goal-submit-btn{
     background: $green;
     font-family: 'Special Elite', cursive;
     padding: 6px;
@@ -32,7 +32,9 @@
         }
     }
 }
-
+button.goal-submit-btn{
+    width:auto;
+}
 .reading-goal-input::placeholder{
     color: $solidGreen;
 

@@ -9801,12 +9801,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
 
+            _this.handleSubmitClick = function () {
+                var booksDeclaredFinal = _this.state.booksDeclared;
+                _this.setState({
+                    booksDeclaredFinal: booksDeclaredFinal
+                }, _this.prepareBooksInfo);
+            };
+
             _this.handleReadingGoal = function (nr) {
                 var booksDeclared = nr;
                 _this.setState({
                     nrOfBooks: nr,
                     booksDeclared: booksDeclared
-                }, _this.prepareBooksInfo);
+                });
             };
 
             _this.prepareBooksInfo = function () {
@@ -9815,7 +9822,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 var author = "author";
                 var bookData = _this.state.booksInfo.slice();
                 if (nrOfObjects > _this.state.booksInfo.length) {
-                    console.log(nrOfObjects, _this.state.booksInfo.length);
                     for (var i = _this.state.booksInfo.length; i < nrOfObjects; i++) {
                         var singleBookData = {
                             author: '',
@@ -9832,11 +9838,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         booksInfo: bookData
                     });
                 } else if (nrOfObjects < _this.state.booksInfo.length) {
-                    console.log(nrOfObjects, bookData.slice(bookData.length - nrOfObjects));
+                    var subtract = bookData.length - nrOfObjects;
+                    bookData = bookData.slice(0, nrOfObjects);
                     _this.setState({
-                        booksInfo: bookData.slice(bookData.length - nrOfObjects)
+                        booksInfo: bookData
                     });
                 }
+                var counter = 0;
+                for (var _i = 0; _i < bookData.length; _i++) {
+                    if (bookData[_i].bookRead === 'book-read') {
+                        counter += 1;
+                    }
+                }
+                _this.setState({
+                    booksRead: counter
+                });
             };
 
             _this.handleSingleAdd = function (nr) {
@@ -9881,7 +9897,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 var newBooksinfo = _this.state.booksInfo.slice();
                 var newObject = newBooksinfo[BookId];
                 var counter = _this.state.booksRead;
-                console.log(newObject.bookRead);
                 if (newObject.bookRead === 'book-read') {
                     newObject.bookRead = 'book-not-read';
 
@@ -9916,7 +9931,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 add1More: 0,
                 booksInfo: [],
                 booksRead: 0,
-                booksDeclared: 0
+                booksDeclared: 0,
+                booksDeclaredFinal: 0
 
             };
             return _this;
@@ -9945,13 +9961,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         { className: 'smaller-container' },
                         _react2.default.createElement(_header2.default, null),
                         _react2.default.createElement(_bookAddingSection2.default, {
-                            onAddGoal: this.handleReadingGoal, onAddSingle: this.handleSingleAdd })
+                            onAddGoal: this.handleReadingGoal,
+                            handleSubmitClick: this.handleSubmitClick,
+                            onAddSingle: this.handleSingleAdd })
                     ),
                     _react2.default.createElement(_bookTiles2.default, {
                         readingGoal: this.state.nrOfBooks,
                         booksRead: this.state.booksRead,
                         addOneMore: this.state.add1More, booksInfo: this.state.booksInfo,
-                        booksDeclared: this.state.booksDeclared,
+                        booksDeclaredFinal: this.state.booksDeclaredFinal,
                         handleBookEdit: this.handleBookEdit,
                         handleBookDelete: this.handleBookDelete,
                         handleBookTileChanges: this.handleBookTileChanges,
@@ -10486,6 +10504,12 @@ var BookAddingSection = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (BookAddingSection.__proto__ || Object.getPrototypeOf(BookAddingSection)).call(this, props));
 
+        _this.handleSubmitClick = function () {
+            if (typeof _this.props.handleSubmitClick === 'function') {
+                _this.props.handleSubmitClick();
+            }
+        };
+
         _this.handleReadingGoal = function (event) {
             var newBooksnr = parseInt(event.target.value);
             if (isNaN(newBooksnr)) {
@@ -10536,7 +10560,12 @@ var BookAddingSection = function (_React$Component) {
                         'label',
                         null,
                         'Declare how many books you want to read this year: ',
-                        _react2.default.createElement('input', { type: 'text', placeholder: 'number', value: this.props.booksDeclared, onChange: this.handleReadingGoal, className: 'reading-goal-input' })
+                        _react2.default.createElement('input', { type: 'text', placeholder: 'number', value: this.props.booksDeclared, onChange: this.handleReadingGoal, className: 'reading-goal-input' }),
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'goal-submit-btn', onClick: this.handleSubmitClick },
+                            'Submit'
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -10799,7 +10828,7 @@ var BookTiles = function (_React$Component) {
                         'span',
                         null,
                         'Reading Goal: ',
-                        this.props.booksDeclared
+                        this.props.booksDeclaredFinal
                     ),
                     ' ',
                     _react2.default.createElement(
@@ -10829,7 +10858,7 @@ var BookTiles = function (_React$Component) {
                         'span',
                         null,
                         'Reading Goal: ',
-                        this.props.booksDeclared
+                        this.props.booksDeclaredFinal
                     ),
                     ' ',
                     _react2.default.createElement(
