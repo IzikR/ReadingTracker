@@ -5,10 +5,24 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-
+h1{
+    margin-top: 20px;
+}
+.books-total{
+    background-color: $solidGreen;
+    color: $solidBeige;
+    padding:5px;
+    span{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
 .book-tile-content{
-    width: 200px;
-    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 180px;
+    height: 280px;
     border-radius: 2%;
     -webkit-box-shadow: 1px 4px 21px 13px rgba(0,0,0,0.75);
     -moz-box-shadow: 1px 4px 21px 13px rgba(0,0,0,0.75);
@@ -17,16 +31,31 @@
     margin: 10px;
     background-color: $beige;
 
-    transition: background-color color opacity 0.3s;
+    transition: all 0.3s;
 
     &:hover {
         background-color: $green;
         color: $solidBeige;
-        opacity: 1;
+        width: 200px;
+        height: 300px;
+    }
+
+    input{
+        width: 90%;
     }
 
 }
-.edit-book-tile-btn{
+.book-tile-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    div{
+        margin-top: 10px;
+        border-bottom: 1px solid black;
+    }
+
+}
+.edit-book-tile-btn, .book-read-btn, .delete-book-btn{
     background: inherit;
     font-family: 'Special Elite', cursive;
     padding: 6px;
@@ -34,9 +63,22 @@
     color: inherit;
 
     transition: background color 0.5s;
-    &:focus{
+    &:hover{
         background: $green;
-        outline: none;
-        color: $beige;
+        color: $solidBeige;
     }
+    &:focus{
+        outline: none;
+    }
+}
+div.book-read{
+    color: $solidBeige;
+    background-color: $solidGreen;
+}
+
+.book-tile-bottom-btns{
+    display: flex;
+    justify-content:space-between;
+    align-items: flex-end;
+
 }

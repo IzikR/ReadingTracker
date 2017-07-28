@@ -5,9 +5,14 @@ body{
     background: url('../images/books-2273257_1920.jpg') no-repeat center center fixed;
     background-size: cover;
 }
-
 .container{
-    background-color:$beige;
-    width: 80vw;
+    background-color:rgba(222, 209, 171, 0.75);
+    width: 100vw;
     min-height: 100vh;
+}
+
+@media only screen and (min-width : 320px) {
+    .container{
+        width: 80vw;
+    }
 }

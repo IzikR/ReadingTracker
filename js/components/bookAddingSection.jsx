@@ -42,13 +42,14 @@ class BookAddingSection extends React.Component{
     }
 
     render(){
-        return <div>
-            <form>
-                <label>Declare how many books you want to read this year<input type="text" placeholder="number" value={this.state.nrOfBooks} onChange={this.handleReadingGoal}></input></label>
-                <br></br>Finished with your goal already?
-                <br></br>
-                <label>Just add more books<button onClick={this.handleSingleAdd} className='single-book-add-btn'>Add</button></label>
-            </form>
+        return <div className="book-adding-section">
+                <div>
+                    <label>Declare how many books you want to read this year: <input type="text" placeholder="number" value={this.props.booksDeclared} onChange={this.handleReadingGoal} className='reading-goal-input'></input></label>
+                </div>
+                <div>
+                    Finished with your goal already? <label>Just add more books: <button onClick={this.handleSingleAdd} className='single-book-add-btn'>Add</button></label>
+                </div>
+
         </div>
     }
 }

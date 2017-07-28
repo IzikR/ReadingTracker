@@ -1,18 +1,44 @@
-.single-book-add-btn{
-    background: inherit;
-    font-family: 'Special Elite', cursive;
-    padding: 6px;
-    font-size: 90%;
-    color: $green;
-
-    transition: background color 0.5s;
-    &:focus{
-        background: $green;
-        outline: none;
-        color: $beige;
+.book-adding-section{
+    font-size: 18px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    border-bottom: 4px double black;
+    div{
+        margin-bottom: 10px;
     }
 }
 
-.input.placeholder{
-    color: $green;
+
+.single-book-add-btn{
+    background: $green;
+    font-family: 'Special Elite', cursive;
+    padding: 6px;
+    width: 50px;
+    font-size: 100%;
+    color: $solidBeige;
+
+    transition: background color 0.5s;
+    &:hover{
+        background: rgba(222, 209, 171, 0.85);
+        color: black;
+    }
+    &:focus{
+        outline: none;
+        &::placeholder{
+            color: $solidBeige;
+        }
+    }
+}
+
+.reading-goal-input::placeholder{
+    color: $solidGreen;
+
+}
+.reading-goal-input{
+    width: 80px;
+    padding-bottom: 0px;
+    margin-bottom: 2px;
 }

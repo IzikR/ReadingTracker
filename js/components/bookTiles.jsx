@@ -28,17 +28,15 @@ class BookTiles extends React.Component{
             }
 
     }
-    handleNrPages=(event)=>{
-        let newnrOfPages = parseInt(event.target.value);
-        if (isNaN (newnrOfPages)){
-            this.setState({
-                nrOfPages: '',
-            })
-        }else{
-            this.setState({
-                nrOfPages: newnrOfPages,
-            })
-        }
+    handleBookDelete = (e, id)=>{
+        if (typeof this.props.handleBookDelete === 'function'){
+                this.props.handleBookDelete(e, id);
+            }
+    }
+    handleBookRead = (e, BookId)=>{
+        if (typeof this.props.handleBookRead === 'function'){
+                this.props.handleBookRead(e, BookId);
+            }
     }
     handleBookTileChanges=(event, bookId, key)=>{
         let newValue = event.target.value;
@@ -57,68 +55,85 @@ class BookTiles extends React.Component{
 
     render(){
         let bookTiles = this.props.booksInfo.map((item, id)=>{
-            if(item.editable){
-                return<div className="book-tile-content" key={id} onClick={this.handleTileClick}>
-                    <button
-                        className="edit-book-tile-btn"
-                        onClick={e => this.handleBookEdit(e, id)}>Done</button>
-                        <div className="book-tile-text">
-                            <label>Author:
-                                <input
-                                    type="text"
-                                    className="book-author"
-                                    value={item.author}
-                                    placeholder="Author" onChange={e=>this.handleBookTileChanges(e, id, "author")}>
-                                </input>
+            let bookReadClass = " book-tile-content " + item.bookRead;
 
+            let bookReadBtnText = "Mark as read";
+            if(item.bookRead === 'book-read'){
+                bookReadBtnText = "Mark as unread";
+            }else{
+                bookReadBtnText = "Mark as read";
+            }
+
+            if(item.editable){
+                return<div className={bookReadClass} key={id} onClick={this.handleTileClick}>
+                    <div className="editable-tile">
+                            <button
+                            className="edit-book-tile-btn"
+                            onClick={e => this.handleBookEdit(e, id)}>Done</button>
+                            <div className="book-tile-text">
+                                <label>Author:
+                                    <input
+                                        type="text"
+                                        className="book-author"
+                                        value={item.author}
+                                        placeholder="Author" onChange={e=>this.handleBookTileChanges(e, id, "author")}>
+                                    </input>
+
+                                    </label>
+
+                                <label>Title:
+                                    <input type="text"
+                                        className="book-title"
+                                        value={item.title}
+                                        placeholder="Title" onChange={e=>this.handleBookTileChanges(e, id, "title")}>
+
+                                    </input>
                                 </label>
 
-                            <label>Title:
-                                <input type="text"
-                                    className="book-title"
-                                    value={item.title}
-                                    placeholder="Title" onChange={e=>this.handleBookTileChanges(e, id, "title")}>
+                                <label>Nr of pages:
+                                    <input
+                                        type="text"
+                                        className="book-nr-of-pages" value={item.nrOfPages}
+                                        placeholder="Nr of pages" onChange={e=>this.handleBookTileChanges(e, id, "nrOfPages")}>
+                                    </input>
+                                    Pages read:
+                                    <input
+                                        type="text"
+                                        className="book-nr-of-pages" value={item.handleBookTileChanges} placeholder="Nr of pages read" onChange={e=>this.handleBookTileChanges(e, id, "nrOfPagesRead")}>
 
-                                </input>
-                            </label>
+                                    </input>
 
-                            <label>Nr of pages:
-                                <input
-                                    type="text"
-                                    className="book-nr-of-pages" value={item.nrOfPages}
-                                    placeholder="Nr of pages in book" onChange={e=>this.handleBookTileChanges(e, id, "nrOfPages")}>
-                                </input>
-                                Pages read:
-                                <input
-                                    type="text"
-                                    className="book-nr-of-pages" value={item.handleBookTileChanges} placeholder="Nr of pages read" onChange={e=>this.handleBookTileChanges(e, id, "nrOfPagesRead")}>
-
-                                </input>
-
-                            </label>
+                                </label>
+                            </div>
                         </div>
                 </div>
             }else{
-                return <div className="book-tile-content" key={id} onClick={this.handleTileClick}>
-                    <button
-                        className="edit-book-tile-btn"
-                        onClick={e => this.handleBookEdit(e, id)}>Edit Book</button>
-                        <div className="book-tile-text">
-                            <p>Author: {item.author}</p>
-                            <p>Title: {item.title}</p>
-                            <p>Nr of pages: {item.nrOfPages}</p>
-                            <p>Pages read: {item.nrOfPagesReads}</p>
-
-                        </div>
+                return <div className={bookReadClass} key={id} onClick={this.handleTileClick}>
+                    <div>
+                            <button
+                                className="edit-book-tile-btn"
+                                onClick={e => this.handleBookEdit(e, id)}>Edit Book</button>
+                            <div className="book-tile-text">
+                                <div>Author: {item.author}</div>
+                                <div>Title: {item.title}</div>
+                                <div>Nr of pages: {item.nrOfPages}</div>
+                                <div>Pages read: {item.nrOfPagesRead}</div>
+                            </div>
+                    </div>
+                            <div className="book-tile-bottom-btns">
+                                <button className="book-read-btn" onClick={e=>this.handleBookRead(e, id)}>{bookReadBtnText}</button>
+                                <button className="delete-book-btn" onClick={e=> this.handleBookDelete(e, id)}>Delete Book</button>
+                            </div>
                 </div>
             }
 
         })
         return <div className="main-section">
-            <h3 className="books-total">Total Books: {bookTiles.length}</h3>
+            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclared}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
             <div className="book-tiles-section">
                 {bookTiles}
             </div>
+            <h3 className="books-total"><span>Reading Goal: {this.props.booksDeclared}</span> <span>Total Books: {bookTiles.length}</span> <span>Books Read: {this.props.booksRead} </span></h3>
             </div>
     }
 }
